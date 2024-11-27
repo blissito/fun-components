@@ -5,7 +5,9 @@ import { useMeasure } from "../hooks/useMeasure";
 export const LinkPreview = ({
   children,
   src,
+  href,
 }: {
+  href?: string;
   children?: ReactNode;
   className?: string;
   src?: string;
@@ -46,6 +48,7 @@ export const LinkPreview = ({
       onMouseMove={handleMouseOver}
     >
       <a
+        href={href}
         rel="noreferrer"
         target="_blank"
         ref={textRef}
@@ -55,7 +58,7 @@ export const LinkPreview = ({
       </a>
       ;
       <motion.img
-        className="rounded-3xl border-4 border-gray-400 absolute bottom-6 -left-6 w-40"
+        className="rounded-2xl border-4 border-[#5158f6] absolute bottom-6 -left-6 w-40"
         src={src}
         alt="preview"
         style={{
