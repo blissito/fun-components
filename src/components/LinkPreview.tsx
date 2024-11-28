@@ -1,6 +1,5 @@
-import { useMotionValue, useSpring, motion } from "motion/react";
+import { useSpring, motion } from "motion/react";
 import { MouseEvent, ReactNode, useRef } from "react";
-import { useMeasure } from "../hooks/useMeasure";
 
 export const LinkPreview = ({
   children,
@@ -12,24 +11,15 @@ export const LinkPreview = ({
   className?: string;
   src?: string;
 }) => {
-  const motionX = useMotionValue(-24); // -left-6
-  const springX = useSpring(motionX, { bounce: 0.2 });
-  //   const [scope, animate] = useAnimate();
   const textRef = useRef<HTMLAnchorElement>(null);
-
-  const { width, x } = useMeasure(textRef);
+  const x = useSpring(-24);
 
   const handleMouseOver = (event: MouseEvent<HTMLDivElement>) => {
-    // cuánto mide el texto? pa saber el porcentaje de recorrido?
-    const clientX = event.clientX;
-    const internalX = clientX - x;
-    const percentage = internalX / width;
-    const theX = (percentage * width - 24) * 0.3;
-    motionX.set(theX);
-    // animate("img", { x: theX }); // not suitable 😤
+    x.set(event.clientX / 4);
   };
   const opacity = useSpring(0, { bounce: 0, duration: 300 });
-  const scale = useSpring(0.5, { bounce: 0 });
+  const scale = useSpring(0.5, { bounce: 0.4 });
+
   const handleMouseEnter = () => {
     scale.set(1);
     opacity.set(1);
@@ -44,7 +34,7 @@ export const LinkPreview = ({
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       //   ref={scope}
-      className="relative"
+      className="relative inline-block"
       onMouseMove={handleMouseOver}
     >
       <a
@@ -52,17 +42,17 @@ export const LinkPreview = ({
         rel="noreferrer"
         target="_blank"
         ref={textRef}
-        className="text-gray-700 font-bold hover:underline"
+        className="text-gray-700 font-bold hover:underline "
       >
         {children}
       </a>
-      ;
+
       <motion.img
         className="rounded-2xl border-4 border-[#5158f6] absolute bottom-6 -left-6 w-40"
         src={src}
         alt="preview"
         style={{
-          x: springX,
+          x,
           scale,
           opacity,
           transformOrigin: "bottom",
