@@ -23,12 +23,12 @@ export const FlipWords = ({
         <motion.span
           children={letter}
           initial={{
-            scale: 4,
-            y: 20,
+            scale: 3,
+            y: -20,
             opacity: 0,
-            rotateY: -180,
-            rotateZ: 180,
-            filter: "blur(9px)",
+            rotateY: -10,
+            rotateZ: -90,
+            filter: "blur(4px)",
           }}
           animate={{
             scale: 1,
@@ -38,7 +38,7 @@ export const FlipWords = ({
             rotateZ: 0,
             filter: "blur(0px)",
           }}
-          transition={{ delay: delay * i }}
+          transition={{ delay: delay * i, type: "spring", bounce: 0 }}
           key={nanoid()} // truco de mágia 🪄
         />
       );
